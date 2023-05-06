@@ -34,6 +34,32 @@
       text-align: center;
     }
   </style>
+  <script>
+    // JavaScript code to fetch server status and player count
+    function updateServerStatus() {
+      const playerCountElement = document.getElementById('playerCount');
+      const serverStatusElement = document.getElementById('serverStatus');
+
+      fetch('https://api.minetools.eu/ping/single-finally.joinmc.link')
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            playerCountElement.innerText = 'Error';
+            serverStatusElement.innerText = 'Offline';
+          } else {
+            playerCountElement.innerText = data.players.online;
+            serverStatusElement.innerText = 'Online';
+          }
+        })
+        .catch(error => {
+          console.log('Error fetching server information:', error);
+          playerCountElement.innerText = 'Error';
+          serverStatusElement.innerText = 'Offline';
+        });
+    }
+
+    window.onload = updateServerStatus;
+  </script>
 </head>
 
 <body>
@@ -50,8 +76,14 @@
     <h3>Server Details</h3>
     <ul>
       <li><strong>Server Name:</strong> SwearverMC</li>
-      <li><strong>IP Address:</strong> held-associates.joinmc.link</li>
+      <li><strong>IP Address:</strong> single-finally.joinmc.link</li>
     </ul>
+
+    <h3>Server Status</h3>
+    <p>
+      Players Online: <span id="playerCount">Loading...</span><br>
+      Server Status: <span id="serverStatus">Loading...</span>
+    </p>
 
     <h3>Connect with Other Players</h3>
     <p>
@@ -77,3 +109,4 @@
 </body>
 
 </html>
+
